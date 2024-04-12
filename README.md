@@ -1,10 +1,10 @@
 # Celta Advendures
-Um Game feito do 0 em JAVA, com o objetivo de adquirir conhecimento sobre o mesmo
+Um Game feito do zero em JAVA, com o objetivo de adquirir conhecimento sobre o mesmo
 
 # Sobre:
 O projeto foi desenvolvido do zero, desde sprites, até a lógica.
 
-Durante o desenvolvimento do game, fui capaz de aprender sobre conceitos básicos como lógica de movimentação, colisão e disparos, até conceitos mais avançados, como _fake jump_, animações, menu e troca de níveis
+Durante o processo, adquiri uma ampla gama de técnicas de desenvolvimento, desde as mais simples até as mais avançadas. Além disso, pude aprimorar minhas habilidades em pixel art, um estilo de arte que sempre admirei.
 
 
 # Imagens
