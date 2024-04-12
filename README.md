@@ -34,6 +34,7 @@ git clone https://github.com/YuriBandeira28/celta_advendures/assets/97187847/249
 Em um diretório que deseja utilizar. E então é só iniciar o código Game.Java, caso já tenha todas as dependências instaladas.
 
 
+# Download 
 Caso queira jogar somente experimentar o jogo, sinta-se a vontade para baixar o executável [aqui](https://github.com/YuriBandeira28/celta_advendures/raw/main/Celta/out/artifacts/Celta_jar/Celta.jar).
 
 
