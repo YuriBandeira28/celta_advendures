@@ -2,7 +2,7 @@
 Um Game feito do 0 em JAVA, com o objetivo de adquirir conhecimento sobre o mesmo
 
 # Sobre:
-O projeto foi desenvolvido do 0, desde sprites, até a lógica.
+O projeto foi desenvolvido do zero, desde sprites, até a lógica.
 
 Durante o desenvolvimento do game, fui capaz de aprender sobre conceitos básicos como lógica de movimentação, colisão e disparos, até conceitos mais avançados, como _fake jump_, animações, menu e troca de níveis
 
@@ -11,6 +11,8 @@ Durante o desenvolvimento do game, fui capaz de aprender sobre conceitos básico
 Aqui estão alguns registros de como ficou o jogo em seu momento final, todas as sprites são de minha autoria.
 
 ## Game
+
+
 
 <div  align="center"">
   
