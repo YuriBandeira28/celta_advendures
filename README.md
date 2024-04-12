@@ -30,7 +30,7 @@ Para clona o projeto, basta acessar seu terminal e usar o comando:
 ```bash
 git clone https://github.com/YuriBandeira28/celta_advendures/assets/97187847/2492b896-12db-4674-bbcf-462a0eb2713a
 ```
-Em um diretório que deseja utilizar. E então é só iniciar o código Main.Java, caso já tenha todas as dependências instaladas.
+Em um diretório que deseja utilizar. E então é só iniciar o código Game.Java, caso já tenha todas as dependências instaladas.
 
 
 
