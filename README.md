@@ -18,6 +18,7 @@ Aqui estão alguns registros de como ficou o jogo em seu momento final, todas as
   | :-: | :-: |
   
 </div>
+
 ## Spritesheet
 
  <div  align="center">
