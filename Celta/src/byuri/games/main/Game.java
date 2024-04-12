@@ -287,7 +287,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         }
         else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A ) {
             player.left = false;
-
         }
         if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W ){
             player.up = false;
