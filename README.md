@@ -1,10 +1,10 @@
 # Celta Advendures
-Um Game feito do 0 em JAVA, com o objetivo de adquirir conhecimento sobre o mesmo
+Um Game feito do zero em JAVA, com o objetivo de adquirir conhecimento sobre o mesmo
 
 # Sobre:
-O projeto foi desenvolvido do 0, desde sprites, até a lógica.
+O projeto foi desenvolvido do zero, desde sprites, até a lógica.
 
-Durante o desenvolvimento do game, fui capaz de aprender sobre conceitos básicos como lógica de movimentação, colisão e disparos, até conceitos mais avançados, como _fake jump_, animações, menu e troca de níveis
+Durante o processo, adquiri uma ampla gama de técnicas de desenvolvimento, desde as mais simples até as mais avançadas. Além disso, pude aprimorar minhas habilidades em pixel art, um estilo de arte que sempre admirei.
 
 
 # Imagens
@@ -12,12 +12,15 @@ Aqui estão alguns registros de como ficou o jogo em seu momento final, todas as
 
 ## Game
 
+
+
 <div  align="center"">
   
   | <div><img src='https://github.com/YuriBandeira28/celta_advendures/assets/97187847/9af6ae0b-84a7-4788-acef-8835c3179a8e' style='width: 400px; height: 350px;'></div> | <div><img src='https://github.com/YuriBandeira28/celta_advendures/assets/97187847/2492b896-12db-4674-bbcf-462a0eb2713a' style='width: 400px; height: 350px;'></div> 
   | :-: | :-: |
   
 </div>
+
 ## Spritesheet
 
  <div  align="center">
@@ -33,6 +36,8 @@ git clone https://github.com/YuriBandeira28/celta_advendures/assets/97187847/249
 Em um diretório que deseja utilizar. E então é só iniciar o código Game.Java, caso já tenha todas as dependências instaladas.
 
 
+# Download 
+Caso queira jogar somente experimentar o jogo, sinta-se a vontade para baixar o executável [aqui](https://github.com/YuriBandeira28/celta_advendures/raw/main/Celta/out/artifacts/Celta_jar/Celta.jar).
 
 
 
