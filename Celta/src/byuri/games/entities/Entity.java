@@ -2,7 +2,10 @@ package byuri.games.entities;
 
 import byuri.games.main.Game;
 import byuri.games.world.Camera;
+import byuri.games.world.Node;
+import byuri.games.world.Vector2i;
 
+import java.util.List;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -25,6 +28,8 @@ public class Entity {
     public int width, height;
     private int maskX, maskY, maskW, maskH;
     public BufferedImage sprite;
+
+    protected List<Node> path;
 
     public Entity(int x, int y, int width, int height, BufferedImage sprite){
         this.x = x;
@@ -79,11 +84,53 @@ public class Entity {
     public void tick(){
     }
 
+    public void followPath(List<Node> path){
+        if (path != null){
+            if(path.size() > 0){
+                Vector2i target = path.get(path.size() - 1).tile;
+                //xPrev = x;
+                //yPrev = y;
+                if( x < target.x * 16 && !isColidingEnt(this.getX() + 1, this.getY())){
+                  x++;
+                }else if(x > target.x*16 && !isColidingEnt(this.getX() - 1, this.getY())){
+                    x--;
+                }
+                if(y < target.y * 16 && !isColidingEnt(this.getX(), this.getY() + 1)){
+                    y++;
+                }else if(y > target.y*16 && !isColidingEnt(this.getX(), this.getY() - 1)){
+                    y--;
+                }
+
+                if (x == target.x * 16 && y == target.y * 16){
+                    path.remove(path.size() -1);
+                }
+            }
+        }
+    }
+    public double calculateDistance(int x1, int y1, int x2, int y2){
+
+        return Math.sqrt((x1-x2) * (x1-x2) + (y1-y2) * (y1-y2));
+    }
     public static boolean isColiding(Entity e1, Entity e2){
         Rectangle ent1 = new Rectangle(e1.getX() +e1.maskX, e1.getY()+e1.maskY, e1.maskW, e1.maskH);
         Rectangle ent2 = new Rectangle(e2.getX() +e2.maskX, e2.getY()+e2.maskY, e2.maskW, e2.maskH);
         if(ent1.intersects(ent2) && e1.z == e2.z){
             return true;
+        }
+        return false;
+    }
+
+    public boolean isColidingEnt(int xNext, int yNext){
+        Rectangle enemyCurrent = new Rectangle(xNext +maskX, yNext+maskY, maskW, maskH);
+        for (int i =0; i < Game.enemies.size(); i++){
+            Enemy e = Game.enemies.get(i);
+            if (e == this){
+                continue;
+            }
+            Rectangle targetEnemy = new Rectangle(e.getX()+ maskX, e.getY()+ maskY, maskW, maskH);
+            if (enemyCurrent.intersects(targetEnemy)){
+                return true;
+            }
         }
         return false;
     }

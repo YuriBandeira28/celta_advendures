@@ -13,22 +13,23 @@ import com.sun.xml.internal.ws.message.stream.StreamHeader;
 import netscape.javascript.JSUtil;
 import sun.security.mscapi.CPublicKey;
 
+import javax.imageio.ImageIO;
 import javax.print.DocFlavor;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Key;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Game extends Canvas implements Runnable, KeyListener, MouseListener {
+public class Game extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener {
 
 
     public static JFrame frame;
@@ -50,6 +51,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static List<Shoot> bullets;
     public  Ui ui;
 
+//    public InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("pixelart.ttf");
+//    public  Font newFont;
     public static int  CURR_LEVEL = 1, MAX_LEVEL = 2;
 
     public static String gameState =  "MENU";
@@ -58,17 +61,29 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     private boolean restartGame = false;
     public Menu menu;
 
+    public boolean saveGame = false;
+    public int[] pixels;
+    public BufferedImage lightMap;
+    public int[] lightMapPixels;
     public Game() {
-        Sound.musicBackground.loop();
+//        Sound.musicBackground.loop();
         rand = new Random();
         ui = new Ui();
         addKeyListener(this);
         addMouseListener(this);
+//        addMouseMotionListener(this);
         setPreferredSize(new Dimension(WIDTH * SCLAE, HEIGHT * SCLAE));
         initFrame();
 
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-
+        pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+        try {
+            lightMap = ImageIO.read(getClass().getResource("/lightmap.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        lightMapPixels = new int[lightMap.getWidth()*lightMap.getHeight()];
+        lightMap.getRGB(0,0,lightMap.getWidth(), lightMap.getHeight(), lightMapPixels, 0, lightMap.getWidth());
         entities = new ArrayList<Entity>();
         enemies = new ArrayList<Enemy>();
         bullets = new ArrayList<Shoot>();
@@ -80,7 +95,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         menu = new Menu();
 
-
+//        try {
+//            newFont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(40f);
+//        } catch (FontFormatException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void initFrame() {
@@ -117,6 +138,15 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public void tick() {
         if (gameState == "NORMAL") {
+            if (this.saveGame){
+                this.saveGame = false;
+                String[] opt1 = {"level", "vida"};
+                int[] opt2 = {this.CURR_LEVEL, (int) player.vida};
+
+                Menu.saveGame(opt1, opt2, 10);
+                System.out.println("Game salvo");
+            }
+
             this.restartGame = false;
             for (int i = 0; i < entities.size(); i++) {
                 Entity e = entities.get(i);
@@ -162,6 +192,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     }
 
+
+
     public void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
@@ -184,14 +216,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             bullet.render(g);
         }
 
-
         ui.render(g);
         g.dispose();
         g = bs.getDrawGraphics();
+
+
         g.drawImage(image, 0, 0, WIDTH * SCLAE, HEIGHT * SCLAE, null);
         g.setFont(new Font("arial", Font.BOLD, 17));
         g.setColor(Color.WHITE);
         g.drawString("Munição: "+ player.municao, 800, 20);
+
 
         if (gameState == "GAME_OVER"){
             Graphics g2 = (Graphics2D) g;
@@ -278,6 +312,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
             player.jump = true;
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_0){
+            if (gameState == "NORMAL"){
+                this.saveGame = true;
+            }
+        }
     }
 
     @Override
@@ -337,5 +377,18 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+//        if (gameState == "NORMAL" && player.hasGun){
+//            player.mGunX = (e.getX() / 3);
+//            player.mGunY = (e.getY() / 3);
+//        }
     }
 }

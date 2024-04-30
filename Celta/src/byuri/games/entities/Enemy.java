@@ -2,11 +2,14 @@ package byuri.games.entities;
 
 import byuri.games.main.Game;
 import byuri.games.main.Sound;
+import byuri.games.world.AStar;
 import byuri.games.world.Camera;
+import byuri.games.world.Vector2i;
 import byuri.games.world.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Enemy extends Entity{
 
@@ -40,67 +43,57 @@ public class Enemy extends Entity{
         }
     }
 
-    public void tick(){
-        if(isColidingWithPlayer() == false){
-            if(this.x < Game.player.getX() && World.isFree((int)(x+speed), this.getY(), 0) && !isColiding((int)(x+speed), this.getY())){
-                this.x +=speed;
-                moved = true;
-                dir = right_dir;
+    public void tick() {
 
+        if (!isColidingWithPlayer()) {
+            if (path == null || path.size() == 0) {
+                Vector2i start = new Vector2i((int) (x / 16), (int) (y / 16));
+                Vector2i end = new Vector2i((int) (Game.player.x / 16), (int) (Game.player.y / 16));
 
-            }else if(this.x > Game.player.getX() && World.isFree((int)(x-speed), this.getY(), 0) && !isColiding((int)(x-speed), this.getY())){
-                x-=speed;
-                moved = true;
-                dir = left_dir;
-
+                path = AStar.findPath(Game.world, start, end);
             }
-            if(this.y < Game.player.getY() && World.isFree(this.getX(), (int)(y+speed), 0) && !isColiding(this.getX(), (int)(y+speed))){
-                this.y +=speed;
-                moved = true;
-
-            }else if(this.y > Game.player.getY() && World.isFree(this.getX(), (int)(y-speed), 0) && !isColiding(this.getX(), (int)(y-speed))){
-                y -=speed;
-                moved = true;
-
-            }
-        }else{
-
-            if (Game.rand.nextInt(100) < 10) {
-                Game.player.isDamaged = true;
-                Game.player.vida--;
+        } else {
+            if (new Random().nextInt(100) < 50) {
                 Sound.hit.play();
-
-            }
-
-        }
-
-        if (moved){
-            frames ++;
-            if (frames == maxFrames){
-                frames = 0;
-                index ++;
-
-                if (index > maxIndex){
-                    index = 0;
-                }
+                Game.player.vida -= Game.rand.nextInt(3);
+                Game.player.isDamaged = true;
             }
         }
+        if (new Random().nextInt(100)< 70){
+            followPath(path);
+        }
+        if (new Random().nextInt(100)< 10){
+            Vector2i start = new Vector2i((int) (x / 16), (int) (y / 16));
+            Vector2i end = new Vector2i((int) (Game.player.x / 16), (int) (Game.player.y / 16));
 
+            path = AStar.findPath(Game.world, start, end);
+        }
+
+        frames++;
+        if (frames == maxFrames) {
+            frames = 0;
+            index++;
+
+            if (index > maxIndex) {
+                index = 0;
+            }
+        }
         colidingBullet();
 
-        if (life <=0){
+        if (life <= 0) {
             destroySelf();
             return;
         }
 
-        if (isDamaged){
-            this.dmgFrames ++;
-            if (this.dmgFrames == 8){
+        if (isDamaged) {
+            this.dmgFrames++;
+            if (this.dmgFrames == 8) {
                 this.dmgFrames = 0;
                 this.isDamaged = false;
             }
         }
     }
+
 
     public void destroySelf(){
         Game.enemies.remove(this);
@@ -108,20 +101,6 @@ public class Enemy extends Entity{
         Game.entities.remove(this);
     }
 
-    public boolean isColiding(int xNext, int yNext){
-        Rectangle enemyCurrent = new Rectangle(xNext +maskX, yNext+maskY, maskW, maskH);
-        for (int i =0; i < Game.enemies.size(); i++){
-            Enemy e = Game.enemies.get(i);
-            if (e == this){
-                continue;
-            }
-            Rectangle targetEnemy = new Rectangle(e.getX()+ maskX, e.getY()+ maskY, maskW, maskH);
-            if (enemyCurrent.intersects(targetEnemy)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     public void colidingBullet(){
         for(int i = 0; i < Game.bullets.size(); i++){
@@ -135,12 +114,14 @@ public class Enemy extends Entity{
             }
         }
     }
+
     public boolean isColidingWithPlayer(){
         Rectangle enemyCurrent = new Rectangle(this.getX() +maskX, this.getY()+maskY, maskW, maskH);
         Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), Game.player.getWidth(), Game.player.getHeight());
 
         return enemyCurrent.intersects(player);
     }
+
 
     public void render(Graphics g){
 //        super.render(g);
@@ -163,5 +144,5 @@ public class Enemy extends Entity{
         }
 
     }
-
 }
+

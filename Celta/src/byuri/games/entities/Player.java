@@ -31,9 +31,10 @@ public class Player extends Entity{
     public int municao = 0;
 
     public boolean isDamaged = false;
-    private boolean hasGun = false;
+    public  boolean hasGun = false;
     public boolean shooting = false, mouseShooting = false;
     public int mx, my;
+    public int mGunX, mGunY;
 
     public boolean jump = false, jumping = false, jumpUp = false, jumpDown = false;
     public int z = 0, jumpFrames = 25, jumpCur = 0, jumpSpeed = 2;
@@ -57,22 +58,35 @@ public class Player extends Entity{
 
     }
     public void render(Graphics g){
+//        Graphics2D g2 = (Graphics2D) g;
+
+//        double mouseAngle =Math.atan2(mGunY - (this.getY()+8 - Camera.y), mGunX - (this.getX() - Camera.x));
+
+
         if (!isDamaged) {
             if (dir == right_dir) {
                 g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y - z, null);
                 if (hasGun){
+//                    g2.rotate(mouseAngle, (double) (this.getX() - Camera.x + 6) /2, (double)(this.getY() - Camera.y - z)/2);
                     g.drawImage(Entity.GUN_RIGHT, this.getX() - Camera.x + 6, this.getY() - Camera.y - z, null);
+//                    g2.rotate(-mouseAngle, (double) (this.getX() - Camera.x + 6) /2, (double)(this.getY() - Camera.y - z)/2);
+
                 }
             } else if (dir == left_dir) {
                 g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y - z, null);
                 if (hasGun){
+//                    g2.rotate(mouseAngle, (double)(this.getX() - Camera.x - 6)/2, (double)(this.getY() - Camera.y - z)/2);
                     g.drawImage(Entity.GUN_LEFT, this.getX() - Camera.x - 6, this.getY() - Camera.y - z, null);
+//                    g2.rotate(-mouseAngle, (double)(this.getX() - Camera.x - 6)/2, (double)(this.getY() - Camera.y - z)/2);
+
+
                 }
             }
         }else {
             g.drawImage(playerDmg, this.getX() - Camera.x, this.getY() - Camera.y - z, null);
             if (hasGun) {
                 if (dir == right_dir) {
+
                     g.drawImage(Entity.GUN_RIGHT, this.getX() - Camera.x + 6, this.getY() - Camera.y - z, null);
                 } else if (dir == left_dir) {
                     g.drawImage(Entity.GUN_LEFT, this.getX() - Camera.x - 6, this.getY() - Camera.y - z, null);
